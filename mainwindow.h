@@ -2,6 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "plan.h"
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
+#include <QSequentialAnimationGroup>
+#include <QTableWidgetItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -17,21 +22,28 @@ public:
     ~MainWindowCrud();
 private slots:
     void viderFormulaireAdd();
-    void viderFormulaireREAD();
+
     void viderFormulaireUpdate();
-    void on_pushButton_5_clicked();
     void on_pushButton_3_clicked();
     void on_pushButton_2_clicked();
     void on_pushButton_clicked();
     void on_pushButton_4_clicked();
     void on_pushButton_6_clicked();
     void on_pushButton_7_clicked();
-    void afficherPlans();
+    void on_pushButton_5_clicked();
+    //void afficherPlans();
+    void afficherPlansMod();
     void on_pushButton_9_clicked();
     void on_pushButton_8_clicked();
+    void on_lineEdit_6_textChanged(const QString &arg1);
+    void exporterPDF_Plan();
+    void on_pushButton_10_clicked();
+    void afficherStatistiquesPlans();
+    void on_pushButton_11_clicked();
 
 private:
     Ui::MainWindowCrud *ui;
+    plan p;
 };
 
 #endif // MAINWINDOW_H

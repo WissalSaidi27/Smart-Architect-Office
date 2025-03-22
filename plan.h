@@ -35,10 +35,13 @@ public:
 
     //fonctionnalités
     bool ajouter();
-    QSqlQueryModel * chercher(int);
+    QSqlQueryModel* afficher_Plan();
     bool modifier(int);
     bool supprimer(int);
     QSqlQueryModel* afficher();
+    QSqlQueryModel* trier(const QString &critere, const QString &mode);
+    QSqlQueryModel * rechercher (const QString &aux);
+    QMap<QString, int> statistiquesPlans();
 
 
 };

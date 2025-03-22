@@ -17,14 +17,14 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>-10</x>
+      <x>0</x>
       <y>0</y>
       <width>791</width>
       <height>551</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -150,7 +150,7 @@ color: white; /* Change la couleur du texte si nécessaire */
        <rect>
         <x>330</x>
         <y>280</y>
-        <width>121</width>
+        <width>161</width>
         <height>41</height>
        </rect>
       </property>
@@ -194,36 +194,12 @@ QPushButton:hover {
        <string>Nom</string>
       </property>
      </widget>
-     <widget class="QTextEdit" name="textEdit_2">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>180</y>
-        <width>161</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QTextEdit {
-    background-color: #F3F5F8;  /* Fond gris clair */
-    color: #333333;             /* Texte foncé */
-    font-size: 14px;
-    border: 2px solid #004AAD;  /* Bordure bleue */
-    border-radius: 5px;
-    padding: 5px;
-}
-</string>
-      </property>
-      <property name="placeholderText">
-       <string>Type</string>
-      </property>
-     </widget>
      <widget class="QDateEdit" name="dateEdit">
       <property name="geometry">
        <rect>
         <x>330</x>
         <y>240</y>
-        <width>110</width>
+        <width>161</width>
         <height>29</height>
        </rect>
       </property>
@@ -293,7 +269,7 @@ color: white; /* Change la couleur du texte si nécessaire */
      <widget class="QPushButton" name="pushButton_2">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>320</x>
         <y>450</y>
         <width>83</width>
         <height>29</height>
@@ -306,7 +282,7 @@ color: white; /* Change la couleur du texte si nécessaire */
      <widget class="QPushButton" name="pushButton_3">
       <property name="geometry">
        <rect>
-        <x>360</x>
+        <x>430</x>
         <y>450</y>
         <width>83</width>
         <height>29</height>
@@ -316,23 +292,57 @@ color: white; /* Change la couleur du texte si nécessaire */
        <string>Annuler</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_9">
+     <widget class="QComboBox" name="comboBox">
       <property name="geometry">
        <rect>
-        <x>-30</x>
-        <y>0</y>
+        <x>330</x>
+        <y>180</y>
         <width>161</width>
-        <height>101</height>
+        <height>28</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Résidentiel</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Intérieur</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Architectural</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Commercial</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Urbanisme</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Menuiserie</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_ch">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>320</y>
+        <width>161</width>
+        <height>20</height>
        </rect>
       </property>
       <property name="text">
-       <string/>
-      </property>
-      <property name="pixmap">
-       <pixmap>../../../Downloads/logo app.png</pixmap>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
+       <string>Chemin</string>
       </property>
      </widget>
     </widget>
@@ -362,8 +372,8 @@ color: white; /* Change la couleur du texte si nécessaire */
      <widget class="QLabel" name="label_4">
       <property name="geometry">
        <rect>
-        <x>240</x>
-        <y>50</y>
+        <x>270</x>
+        <y>10</y>
         <width>341</width>
         <height>41</height>
        </rect>
@@ -381,80 +391,6 @@ color: white; /* Change la couleur du texte si nécessaire */
       </property>
       <property name="text">
        <string>Afficher un plan</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lineEdit_6">
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>160</y>
-        <width>113</width>
-        <height>28</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>11</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background: transparent;
-border: none;
-color: white; /* Change la couleur du texte si nécessaire */
-</string>
-      </property>
-      <property name="text">
-       <string>Id de plan:</string>
-      </property>
-     </widget>
-     <widget class="QTextEdit" name="textEdit_3">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>150</y>
-        <width>201</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QTextEdit {
-    background-color: #F3F5F8;  /* Fond gris clair */
-    color: #333333;             /* Texte foncé */
-    font-size: 14px;
-    border: 2px solid #004AAD;  /* Bordure bleue */
-    border-radius: 5px;
-    padding: 5px;
-}
-</string>
-      </property>
-      <property name="placeholderText">
-       <string>Id de plan</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_4">
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>220</y>
-        <width>83</width>
-        <height>29</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Chercher</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_5">
-      <property name="geometry">
-       <rect>
-        <x>370</x>
-        <y>220</y>
-        <width>83</width>
-        <height>29</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Annuler</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_10">
@@ -479,11 +415,124 @@ color: white; /* Change la couleur du texte si nécessaire */
      <widget class="QTableView" name="tableView">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>270</y>
-        <width>331</width>
-        <height>192</height>
+        <x>50</x>
+        <y>160</y>
+        <width>651</width>
+        <height>181</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>350</y>
+        <width>83</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Afficher </string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_3">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>120</y>
+        <width>101</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>id_plan</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>type_plan</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>date_creation</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QRadioButton" name="radioButton">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>120</y>
+        <width>112</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Croissant</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radioButton_2">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>120</y>
+        <width>112</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>descendant</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_5">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>120</y>
+        <width>83</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Trier</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_6">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>120</y>
+        <width>113</width>
+        <height>28</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_10">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>350</y>
+        <width>83</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Imprimer</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_11">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>350</y>
+        <width>83</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stat</string>
       </property>
      </widget>
     </widget>
@@ -640,19 +689,6 @@ color: white; /* Change la couleur du texte si nécessaire */
        <string>background: transparent;\nborder: none;\ncolor: white; /* Change la couleur du texte si nécessaire */\n</string>
       </property>
      </widget>
-     <widget class="QTextEdit" name="textEdit_6">
-      <property name="geometry">
-       <rect>
-        <x>290</x>
-        <y>200</y>
-        <width>181</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="placeholderText">
-       <string>Type de plan</string>
-      </property>
-     </widget>
      <widget class="QLineEdit" name="lineEdit_10">
       <property name="geometry">
        <rect>
@@ -734,7 +770,7 @@ color: white; /* Change la couleur du texte si nécessaire */
        <rect>
         <x>290</x>
         <y>240</y>
-        <width>110</width>
+        <width>181</width>
         <height>29</height>
        </rect>
       </property>
@@ -768,7 +804,7 @@ color: white; /* Change la couleur du texte si nécessaire */
        <rect>
         <x>290</x>
         <y>340</y>
-        <width>171</width>
+        <width>181</width>
         <height>61</height>
        </rect>
       </property>
@@ -779,7 +815,7 @@ color: white; /* Change la couleur du texte si nécessaire */
      <widget class="QPushButton" name="pushButton_7">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>280</x>
         <y>420</y>
         <width>83</width>
         <height>29</height>
@@ -792,7 +828,7 @@ color: white; /* Change la couleur du texte si nécessaire */
      <widget class="QPushButton" name="pushButton_8">
       <property name="geometry">
        <rect>
-        <x>330</x>
+        <x>380</x>
         <y>420</y>
         <width>83</width>
         <height>29</height>
@@ -825,10 +861,63 @@ color: white; /* Change la couleur du texte si nécessaire */
       <property name="geometry">
        <rect>
         <x>480</x>
-        <y>280</y>
+        <y>20</y>
         <width>301</width>
-        <height>192</height>
+        <height>201</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_2">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>200</y>
+        <width>181</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Résidentiel</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Intérieur</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Architectural</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Commercial</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Urbanisme</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Menuiserie</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_12">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>320</y>
+        <width>171</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Chemin:</string>
       </property>
      </widget>
     </widget>
@@ -863,7 +952,7 @@ color: white; /* Change la couleur du texte si nécessaire */
      <widget class="QLabel" name="label_8">
       <property name="geometry">
        <rect>
-        <x>230</x>
+        <x>250</x>
         <y>40</y>
         <width>291</width>
         <height>41</height>
