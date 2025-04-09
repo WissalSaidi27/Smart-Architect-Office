@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -1021,6 +1021,238 @@ color: white; /* Change la couleur du texte si nécessaire */
       </property>
       <property name="text">
        <string>Supprimer</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_5">
+     <attribute name="title">
+      <string>Visualisation 2D du Plan</string>
+     </attribute>
+     <widget class="QGroupBox" name="PlanTypeGroup">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>231</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Type de Plan</string>
+      </property>
+      <widget class="QComboBox" name="planTypeCombo">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>60</y>
+         <width>91</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>Maison</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Bureau</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Appartement</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Restaurant</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Magasin</string>
+        </property>
+       </item>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="dimensionGroup">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>30</y>
+        <width>231</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Dimensions</string>
+      </property>
+      <widget class="QSpinBox" name="widthSpinBox">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>30</y>
+         <width>71</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="suffix">
+        <string> m</string>
+       </property>
+       <property name="minimum">
+        <number>5</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
+       <property name="value">
+        <number>15</number>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="heightSpinBox">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>60</y>
+         <width>71</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="suffix">
+        <string> m</string>
+       </property>
+       <property name="minimum">
+        <number>5</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
+       <property name="value">
+        <number>10</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_9">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>63</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Largeur:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_13">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>63</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Longeur:</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="roomGroup">
+      <property name="geometry">
+       <rect>
+        <x>520</x>
+        <y>30</y>
+        <width>231</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Pièces</string>
+      </property>
+      <widget class="QSpinBox" name="roomCountSpinBox">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>50</y>
+         <width>61</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>10</number>
+       </property>
+       <property name="value">
+        <number>4</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_14">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>141</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Nombre de pièces :</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGraphicsView" name="View">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>170</y>
+        <width>761</width>
+        <height>251</height>
+       </rect>
+      </property>
+      <property name="backgroundBrush">
+       <brush brushstyle="NoBrush">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </property>
+      <property name="renderHints">
+       <set>QPainter::RenderHint::Antialiasing</set>
+      </property>
+      <property name="dragMode">
+       <enum>QGraphicsView::DragMode::ScrollHandDrag</enum>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="saveButton">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>450</y>
+        <width>101</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Sauvegarder</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="generateButton">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>450</y>
+        <width>111</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Générer Plan</string>
       </property>
      </widget>
     </widget>

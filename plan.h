@@ -5,6 +5,9 @@
 #include<QSqlQueryModel>
 #include<QDate>
 #include <QSqlTableModel>
+#include <QGraphicsScene>
+
+#include <QGraphicsRectItem>
 
 class plan
 {
@@ -16,6 +19,8 @@ public:
     plan(){}
 
     plan(int id_plan,QString nom_plan,QString type_plan,QString description,QString photo, QDate date_creation);
+
+
 
     //Getters
     int getId_plan(){return id_plan;}
@@ -42,6 +47,8 @@ public:
     QSqlQueryModel* trier(const QString &critere, const QString &mode);
     QSqlQueryModel * rechercher (const QString &aux);
     QMap<QString, int> statistiquesPlans();
+    //void genererPlan();
+
 
 
 };

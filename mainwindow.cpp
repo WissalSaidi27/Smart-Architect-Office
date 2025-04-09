@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+ #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "connection.h"
 #include <QDebug>
@@ -13,14 +13,39 @@
 #include <QtCharts/QChartView>
 #include <QtCharts/QPieSeries>
 #include <QtCharts/QPieSlice>
-
-
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QGraphicsRectItem>
+#include <QGraphicsLineItem>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QGraphicsScene>
+#include <QGraphicsRectItem>
+#include <QGraphicsLineItem>
+#include <QPen>
+#include <QRandomGenerator>
+#include <QGraphicsTextItem>
+#include <QGraphicsEllipseItem>
+#include <QPainter>
+#include <QBrush>
+#include "floorplangenerator.h"
 
 MainWindowCrud::MainWindowCrud(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindowCrud)
+
 {
     ui->setupUi(this);
+
+    // Lier le bouton "Générer" à la fonction `genererPlan`
+
+    //connect(ui->pushButton_generer_2D, &QPushButton::clicked, this, &MainWindowCrud::genererPlan2D);
+    // Dans le constructeur de ta classe principale
+    connect(ui->generateButton, &QPushButton::clicked, this, &MainWindowCrud::on_generateButton_clicked);
+
+
+
 
 
 }
@@ -133,7 +158,7 @@ void MainWindowCrud::on_pushButton_7_clicked() {
     QString nom = ui->textEdit_5->toPlainText();
     QString type = ui->comboBox_2->currentText();
     QString description = ui->plainTextEdit_2->toPlainText();
-    QString photo = ui->lineEdit_10->text();
+    QString photo = ui->label_12->text();
     QDate date_creation = ui->dateEdit_2->date();
     qDebug() << "Date récupérée :" << date_creation.toString("yyyy-MM-dd");
     // Vérifier si l'ID est valide
@@ -210,6 +235,7 @@ void MainWindowCrud::on_pushButton_9_clicked() {
         QMessageBox::critical(this, "Erreur", "Échec de la suppression du plan !");
     }
 }
+//button tri
 void MainWindowCrud::on_pushButton_5_clicked() {
         plan p;
 
@@ -225,6 +251,7 @@ void MainWindowCrud::on_pushButton_5_clicked() {
         }
         ui->tableView->setModel(p.trier(critere, mode));
     }
+//zone recherche
 void MainWindowCrud::on_lineEdit_6_textChanged(const QString &arg1)
 {
     plan p;
@@ -237,6 +264,7 @@ void MainWindowCrud::on_lineEdit_6_textChanged(const QString &arg1)
         ui->tableView->setModel(p.rechercher(arg1));
     }
 }
+//fonction pdf
 void MainWindowCrud::exporterPDF_Plan() {
 
         /* QPrinter printer;
@@ -310,10 +338,11 @@ void MainWindowCrud::exporterPDF_Plan() {
         }
 
     }
-
+//button pdf
 void MainWindowCrud::on_pushButton_10_clicked() {
     exporterPDF_Plan();
 }
+//fonction stat
 void MainWindowCrud::afficherStatistiquesPlans() {
     plan p;
     QMap<QString, int> stats = p.statistiquesPlans();
@@ -337,7 +366,168 @@ void MainWindowCrud::afficherStatistiquesPlans() {
     chartView->resize(600, 400);
     chartView->show();
 }
+//button stat
 void MainWindowCrud::on_pushButton_11_clicked() {
     afficherStatistiquesPlans();
 }
+
+
+
+// Fonction pour générer la visualisation 2D du plan
+/*void MainWindowCrud::genererPlan2D() {
+    int longueur = ui->lineEdit_longueur->text().toInt();
+    int largeur = ui->lineEdit_largeur->text().toInt();
+    int nb_murs = ui->spinBox_nb_murs->value();
+    int nb_portes = ui->spinBox_nb_portes->value();
+    int nb_fenetres = ui->spinBox_nb_fenetres->value();
+
+    if (longueur <= 0 || largeur <= 0) {
+        QMessageBox::warning(this, "Erreur", "Les dimensions doivent être positives !");
+        return;
+    }
+
+    // Création de la scène
+    QGraphicsScene *scene = new QGraphicsScene();
+    ui->graphicsView_2D->setScene(scene);
+
+    // Échelle pour un meilleur rendu
+    int scale = 50;
+
+    // 🔹 Dessiner le cadre principal
+    QPen pen(Qt::black);
+    pen.setWidth(3);
+    scene->addRect(0, 0, longueur * scale, largeur * scale, pen);
+
+    // 🔹 Ajouter une grille (optionnel, améliore la précision)
+    QPen gridPen(Qt::gray, 1, Qt::DashLine);
+    for (int i = 0; i <= longueur; i++) {
+        scene->addLine(i * scale, 0, i * scale, largeur * scale, gridPen);
+    }
+    for (int j = 0; j <= largeur; j++) {
+        scene->addLine(0, j * scale, longueur * scale, j * scale, gridPen);
+    }
+
+    // 🔹 Ajouter des murs plus réalistes
+    QPen murPen(Qt::darkGray);
+    murPen.setWidth(6);
+    for (int i = 0; i < nb_murs; i++) {
+        int x = QRandomGenerator::global()->bounded(longueur - 2) * scale;
+        int y = QRandomGenerator::global()->bounded(largeur - 2) * scale;
+        scene->addRect(x, y, scale, scale / 4, murPen);
+    }
+
+    // 🔹 Ajouter des portes
+    QPen portePen(Qt::blue);
+    portePen.setWidth(4);
+    for (int i = 0; i < nb_portes; i++) {
+        int x = QRandomGenerator::global()->bounded(longueur) * scale;
+        int y = 0;
+        scene->addLine(x, y, x + scale / 2, y, portePen);
+    }
+
+    // 🔹 Ajouter des fenêtres
+    QPen fenetrePen(Qt::cyan);
+    fenetrePen.setWidth(3);
+    for (int i = 0; i < nb_fenetres; i++) {
+        int x = QRandomGenerator::global()->bounded(longueur) * scale;
+        int y = largeur * scale;
+        scene->addLine(x, y, x + scale / 2, y, fenetrePen);
+    }
+
+    // 🔹 Ajouter le texte des dimensions
+    QGraphicsTextItem *dimText = scene->addText(QString("%1m x %2m").arg(longueur).arg(largeur));
+    dimText->setDefaultTextColor(Qt::white);
+    dimText->setFont(QFont("Arial", 14, QFont::Bold));
+    dimText->setPos(longueur * scale / 2 - 20, largeur * scale + 10);
+}
+*/
+/*void MainWindowCrud::genererPlan2D()
+{
+    // 📌 Récupération des valeurs saisies
+    int longueur = ui->lineEdit_longueur->text().toInt();
+    int largeur = ui->lineEdit_largeur->text().toInt();
+    int nb_murs = ui->spinBox_nb_murs->value();
+    int nb_portes = ui->spinBox_nb_portes->value();
+    int nb_fenetres = ui->spinBox_nb_fenetres->value();
+
+    // 📌 Vérification des dimensions minimales
+    if (longueur < 50 || largeur < 50) {
+        QMessageBox::warning(this, "Erreur", "Les dimensions doivent être supérieures à 50 !");
+        return;
+    }
+
+    // 📌 Création de la scène
+    if (!ui->graphicsView_2D->scene()) {
+        ui->graphicsView_2D->setScene(new QGraphicsScene(this));
+    }
+    ui->graphicsView_2D->scene()->clear();
+
+    QGraphicsScene *scene = new QGraphicsScene(this);
+    ui->graphicsView_2D->setScene(scene);
+
+    // === 🏠 DESSIN DU PLAN PRINCIPAL (Cadre du plan) ===
+    QRectF planRect(0, 0, longueur, largeur);
+    QPen cadrePen(Qt::black, 3);
+    scene->addRect(planRect, cadrePen);
+
+    // === 🚧 AJOUT DES MURS (DÉPLAÇABLES) ===
+    for (int i = 0; i < nb_murs; ++i) {
+        int x = QRandomGenerator::global()->bounded(10, longueur - 50);
+        int y = QRandomGenerator::global()->bounded(10, largeur - 50);
+        int width = QRandomGenerator::global()->bounded(50, 150);
+        int height = 8; // Épaisseur du mur
+
+        PlanItem *mur = new PlanItem(x, y, width, height, Qt::darkGray);
+        scene->addItem(mur);
+    }
+
+    // === 🚪 AJOUT DES PORTES (DÉPLAÇABLES) ===
+    for (int i = 0; i < nb_portes; ++i) {
+        int x = QRandomGenerator::global()->bounded(10, longueur - 50);
+        int y = QRandomGenerator::global()->bounded(10, largeur - 50);
+
+        PlanItem *porte = new PlanItem(x, y, 30, 5, QColor(139, 69, 19)); // Marron (brown)
+        scene->addItem(porte);
+    }
+
+    // === 🪟 AJOUT DES FENÊTRES (DÉPLAÇABLES) ===
+    for (int i = 0; i < nb_fenetres; ++i) {
+        int x = QRandomGenerator::global()->bounded(10, longueur - 50);
+        int y = QRandomGenerator::global()->bounded(10, largeur - 50);
+
+        PlanItem *fenetre = new PlanItem(x, y, 40, 5, Qt::cyan);
+        scene->addItem(fenetre);
+    }
+
+    // 📌 Ajuster la vue
+    ui->graphicsView_2D->fitInView(planRect, Qt::KeepAspectRatio);
+}
+
+void MainWindowCrud::on_pushButton_generer_2D_clicked(){
+    genererPlan2D();
+}*/
+
+
+void MainWindowCrud::on_generateButton_clicked()
+{
+    FloorPlanGenerator *gen = new FloorPlanGenerator(this);
+
+    // Connecter les widgets de l'interface Qt Designer
+    gen->planTypeCombo = ui->planTypeCombo;
+    gen->widthSpinBox = ui->widthSpinBox;
+    gen->heightSpinBox = ui->heightSpinBox;
+    gen->roomCountSpinBox = ui->roomCountSpinBox;
+    gen->view = ui->View;
+
+    // Créer une nouvelle scène et l'afficher dans la vue
+    gen->scene = new QGraphicsScene(this);
+    ui->View->setScene(gen->scene);
+
+    // Générer le plan (appel d'une méthode de génération, par exemple)
+    gen->generateFloorPlan(); // Assure-toi que generatePlan() fait quelque chose ici
+
+    // Il n'est pas nécessaire de faire appel à show() si on affiche déjà la scène
+    // gen->show();
+}
+
 

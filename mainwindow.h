@@ -3,10 +3,18 @@
 
 #include <QMainWindow>
 #include "plan.h"
+
+
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
 #include <QSequentialAnimationGroup>
 #include <QTableWidgetItem>
+#include <QMessageBox>
+#include <QGraphicsScene>
+#include <QGraphicsRectItem>
+#include <QMouseEvent>
+
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,6 +27,8 @@ class MainWindowCrud : public QMainWindow {
 
 public:
     explicit MainWindowCrud(QWidget *parent = nullptr);
+
+
     ~MainWindowCrud();
 private slots:
     void viderFormulaireAdd();
@@ -40,10 +50,23 @@ private slots:
     void on_pushButton_10_clicked();
     void afficherStatistiquesPlans();
     void on_pushButton_11_clicked();
+    /*void genererPlan2D();
+    void on_pushButton_generer_2D_clicked();*/
+    //void on_generateButton_clicked();
+    void on_generateButton_clicked();
+
+
+
+
 
 private:
     Ui::MainWindowCrud *ui;
+    //plan p;
     plan p;
+
+
+
 };
+
 
 #endif // MAINWINDOW_H

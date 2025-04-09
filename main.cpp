@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include "connection.h"
 #include <QDebug>
+#include "floorplangenerator.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -23,6 +24,8 @@ int main(int argc, char *argv[])
                                 "Click Cancel to exit."), QMessageBox::Cancel);
 
 
+
+    w.show();
 
     return a.exec();
 }

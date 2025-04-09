@@ -5,6 +5,10 @@
 #include <QMessageBox>
 #include<QWidget>
 #include <QPrinter>
+#include <QBrush>
+#include <QGraphicsTextItem>
+
+
 plan::plan(int id_plan, QString nom_plan,QString type_plan ,QString description ,QString photo,QDate date_creation)
 {
     this->id_plan=id_plan;
@@ -15,6 +19,7 @@ plan::plan(int id_plan, QString nom_plan,QString type_plan ,QString description 
     this->date_creation=date_creation;
 
 }
+
 //fonction ajouter plan
 bool plan::ajouter()
 {

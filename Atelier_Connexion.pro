@@ -29,12 +29,14 @@ CONFIG += c++11
 CONFIG += console
 
 SOURCES += \
+    floorplangenerator.cpp \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
     plan.cpp
 
 HEADERS += \
+    floorplangenerator.h \
         mainwindow.h \
     connection.h \
     plan.h
