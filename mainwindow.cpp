@@ -43,7 +43,17 @@ MainWindowCrud::MainWindowCrud(QWidget *parent) :
     //connect(ui->pushButton_generer_2D, &QPushButton::clicked, this, &MainWindowCrud::genererPlan2D);
     // Dans le constructeur de ta classe principale
     connect(ui->generateButton, &QPushButton::clicked, this, &MainWindowCrud::on_generateButton_clicked);
-
+    QPixmap logo(":/Images/Images/logo_app.png");
+    ui->labelLogo->setPixmap(logo);
+    ui->labelLogo->setScaledContents(true);
+    ui->labelLogo_2->setPixmap(logo);
+    ui->labelLogo_2->setScaledContents(true);
+    ui->labelLogo_3->setPixmap(logo);
+    ui->labelLogo_3->setScaledContents(true);
+    ui->labelLogo_4->setPixmap(logo);
+    ui->labelLogo_4->setScaledContents(true);
+    ui->labelLogo_5->setPixmap(logo);
+    ui->labelLogo_5->setScaledContents(true);
 
 
 
@@ -266,78 +276,89 @@ void MainWindowCrud::on_lineEdit_6_textChanged(const QString &arg1)
 }
 //fonction pdf
 void MainWindowCrud::exporterPDF_Plan() {
+    QString strStream;
+    QTextStream out(&strStream);
+    const int rowCount = ui->tableView->model()->rowCount();
+    const int columnCount = ui->tableView->model()->columnCount();
+    QString currentDate = QDate::currentDate().toString("dd/MM/yyyy");
+    QString logoPath = "C:/Images/logo_app.png";
 
-        /* QPrinter printer;
-    printer.setPrinterName ("le nom de l'imprimante");
-    QPrintDialog dialog(&printer,this);
-    if (dialog.exec()== QDialog::Rejected)return;
-    ui->tableView->render(&printer);*/
+    out << "<html>\n"
+           "<head>\n"
+           "<meta charset='UTF-8'>\n"
+           "<title>Exportation PDF</title>\n"
+           "<style>"
+           "body { font-family: 'Segoe UI', sans-serif; }"
+           "table { border-collapse: collapse; width: 90%; margin: auto; }"
+           "th, td { border: 1px solid #000000; padding: 8px; text-align: center; }"
+           "th { background-color: #02315b; color: white; }"
+           "h1 { color: #02315b; }"
+           "</style>\n"
+           "</head>\n"
+           "<body>\n";
 
-        QString strStream;
-        QTextStream out(&strStream);
-        const int rowCount = ui->tableView->model()->rowCount();
-        const int columnCount = ui->tableView->model()->columnCount();
-        QString TT = QDate::currentDate().toString("yyyy/MM/dd");
+    // Header with logo and date
+    out << "<div style='display: flex; justify-content: space-between; align-items: center; padding: 0 40px;'>"
+           "<img src='" + logoPath + "' width='100' alt='Logo'>"
 
-        out <<  "<html>\n"
-               "<head>\n"
-               "<meta Content=\"Text/html; charset=Windows-1251\">\n"
-            <<  QString("<title>%1</title>\n").arg("strTitle")
-            <<  "</head>\n"
-               "<body bgcolor=#ffffff link=#5000A0>\n"
+             // 📌 Place your logo at :/images/logo.png
+           "<div style='text-align: right;'>"
+           "<p style='font-size: 14px; color: #555;'>Date : " << currentDate << "</p>"
+                          "<p style='font-size: 14px; color: #555;'>Document: Liste des Plans</p>"
+                          "</div></div><hr>";
 
-               //     "<align='right'> " << datefich << "</align>"
+    // Title
+    out << "<h1 style='text-align:center;'>Liste des Plans</h1><br>";
 
+    // Table start
+    out << "<table>\n";
+    out << "<thead><tr><th>#</th>";
 
-
-               "<center> <H1>Liste des Plans</H1></br></br><table border=1 cellspacing=0 cellpadding=2>\n";
-
-        // headers
-        out << "<thead><tr bgcolor=#FF2E01> <th>Numero</th>";
-        for (int column = 0; column < columnCount; column++)
-            if (!ui->tableView->isColumnHidden(column))
-                out << QString("<th>%1</th>").arg(ui->tableView->model()->headerData(column, Qt::Horizontal).toString());
-        out << "</tr></thead>\n";
-
-        // data table
-        for (int row = 0; row < rowCount; row++) {
-            out << "<tr> <td bkcolor=0>" << row+1 <<"</td>";
-            for (int column = 0; column < columnCount; column++) {
-                if (!ui->tableView->isColumnHidden(column)) {
-                    QString data =ui->tableView->model()->data(ui->tableView->model()->index(row, column)).toString().simplified();
-                    out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
-
-
-                }
-            }
-            out << "</tr>\n";
+    for (int column = 0; column < columnCount; column++) {
+        if (!ui->tableView->isColumnHidden(column)) {
+            out << QString("<th>%1</th>").arg(ui->tableView->model()->headerData(column, Qt::Horizontal).toString());
         }
-        out <<  "</table> </center>\n";
-        out << "<tr>\n"
-
-               "</body>\n"
-               "</html>\n";
-
-        QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Sauvegarder en PDF", QString(), "*.pdf");
-        if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
-        QPrinter *printer=new  QPrinter(QPrinter::PrinterResolution);
-        printer->setOutputFormat(QPrinter::PdfFormat);
-        printer->setPageSize(QPageSize(QPageSize::A4));
-        printer->setOutputFileName(fileName);
-
-        QTextDocument doc;
-        doc.setHtml(strStream);
-        //doc.setPageSize(printer->pageRect().size()); // This is necessary if you want to hide the page number
-        doc.print(printer);
-
-        QPrinter *p=new QPrinter();
-        QPrintDialog dialog(p,this);
-        if(dialog.exec()== QDialog::Rejected)
-        {
-            return;
-        }
-
     }
+    out << "</tr></thead>\n";
+
+    // Table rows
+    for (int row = 0; row < rowCount; row++) {
+        out << "<tr><td>" << row + 1 << "</td>";
+        for (int column = 0; column < columnCount; column++) {
+            if (!ui->tableView->isColumnHidden(column)) {
+                QString data = ui->tableView->model()->data(ui->tableView->model()->index(row, column)).toString().simplified();
+                out << QString("<td>%1</td>").arg(!data.isEmpty() ? data : QString("&nbsp;"));
+            }
+        }
+        out << "</tr>\n";
+    }
+    out << "</table>\n";
+
+    // Footer
+    out << "<br><br><div style='text-align: right; padding-right: 60px;'>"
+           "<p>Signature responsable</p><br><br>"
+           "______________________________"
+           "</div>";
+
+    out << "</body></html>";
+
+    // PDF export
+    QString fileName = QFileDialog::getSaveFileName(nullptr, "Sauvegarder en PDF", QString(), "*.pdf");
+    if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".pdf");
+
+    QPrinter printer(QPrinter::PrinterResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setPageSize(QPageSize(QPageSize::A4));
+    printer.setOutputFileName(fileName);
+
+    QTextDocument doc;
+    doc.setHtml(strStream);
+    doc.print(&printer);
+
+    QMessageBox::information(this, "Succès", "PDF exporté avec succès !");
+}
+
+
 //button pdf
 void MainWindowCrud::on_pushButton_10_clicked() {
     exporterPDF_Plan();
@@ -353,19 +374,32 @@ void MainWindowCrud::afficherStatistiquesPlans() {
     }
 
     QPieSeries *series = new QPieSeries();
+    int total = 0;
+
+    // D'abord calculer le total
     for (auto it = stats.begin(); it != stats.end(); ++it) {
-        series->append(it.key(), it.value());
+        total += it.value();
+    }
+
+    // Ajouter les parts avec labels contenant le pourcentage
+    for (auto it = stats.begin(); it != stats.end(); ++it) {
+        qreal percentage = (static_cast<qreal>(it.value()) / total) * 100.0;
+        QString label = QString("%1 (%2%)").arg(it.key()).arg(QString::number(percentage, 'f', 1));
+        QPieSlice *slice = series->append(label, it.value());
+        slice->setLabelVisible(true);
     }
 
     QChart *chart = new QChart();
     chart->addSeries(series);
-    chart->setTitle("Répartition des plans par type");
+    chart->setTitle("📊 Répartition des plans par type");
+    chart->setAnimationOptions(QChart::AllAnimations);
 
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
     chartView->resize(600, 400);
     chartView->show();
 }
+
 //button stat
 void MainWindowCrud::on_pushButton_11_clicked() {
     afficherStatistiquesPlans();
@@ -373,139 +407,6 @@ void MainWindowCrud::on_pushButton_11_clicked() {
 
 
 
-// Fonction pour générer la visualisation 2D du plan
-/*void MainWindowCrud::genererPlan2D() {
-    int longueur = ui->lineEdit_longueur->text().toInt();
-    int largeur = ui->lineEdit_largeur->text().toInt();
-    int nb_murs = ui->spinBox_nb_murs->value();
-    int nb_portes = ui->spinBox_nb_portes->value();
-    int nb_fenetres = ui->spinBox_nb_fenetres->value();
-
-    if (longueur <= 0 || largeur <= 0) {
-        QMessageBox::warning(this, "Erreur", "Les dimensions doivent être positives !");
-        return;
-    }
-
-    // Création de la scène
-    QGraphicsScene *scene = new QGraphicsScene();
-    ui->graphicsView_2D->setScene(scene);
-
-    // Échelle pour un meilleur rendu
-    int scale = 50;
-
-    // 🔹 Dessiner le cadre principal
-    QPen pen(Qt::black);
-    pen.setWidth(3);
-    scene->addRect(0, 0, longueur * scale, largeur * scale, pen);
-
-    // 🔹 Ajouter une grille (optionnel, améliore la précision)
-    QPen gridPen(Qt::gray, 1, Qt::DashLine);
-    for (int i = 0; i <= longueur; i++) {
-        scene->addLine(i * scale, 0, i * scale, largeur * scale, gridPen);
-    }
-    for (int j = 0; j <= largeur; j++) {
-        scene->addLine(0, j * scale, longueur * scale, j * scale, gridPen);
-    }
-
-    // 🔹 Ajouter des murs plus réalistes
-    QPen murPen(Qt::darkGray);
-    murPen.setWidth(6);
-    for (int i = 0; i < nb_murs; i++) {
-        int x = QRandomGenerator::global()->bounded(longueur - 2) * scale;
-        int y = QRandomGenerator::global()->bounded(largeur - 2) * scale;
-        scene->addRect(x, y, scale, scale / 4, murPen);
-    }
-
-    // 🔹 Ajouter des portes
-    QPen portePen(Qt::blue);
-    portePen.setWidth(4);
-    for (int i = 0; i < nb_portes; i++) {
-        int x = QRandomGenerator::global()->bounded(longueur) * scale;
-        int y = 0;
-        scene->addLine(x, y, x + scale / 2, y, portePen);
-    }
-
-    // 🔹 Ajouter des fenêtres
-    QPen fenetrePen(Qt::cyan);
-    fenetrePen.setWidth(3);
-    for (int i = 0; i < nb_fenetres; i++) {
-        int x = QRandomGenerator::global()->bounded(longueur) * scale;
-        int y = largeur * scale;
-        scene->addLine(x, y, x + scale / 2, y, fenetrePen);
-    }
-
-    // 🔹 Ajouter le texte des dimensions
-    QGraphicsTextItem *dimText = scene->addText(QString("%1m x %2m").arg(longueur).arg(largeur));
-    dimText->setDefaultTextColor(Qt::white);
-    dimText->setFont(QFont("Arial", 14, QFont::Bold));
-    dimText->setPos(longueur * scale / 2 - 20, largeur * scale + 10);
-}
-*/
-/*void MainWindowCrud::genererPlan2D()
-{
-    // 📌 Récupération des valeurs saisies
-    int longueur = ui->lineEdit_longueur->text().toInt();
-    int largeur = ui->lineEdit_largeur->text().toInt();
-    int nb_murs = ui->spinBox_nb_murs->value();
-    int nb_portes = ui->spinBox_nb_portes->value();
-    int nb_fenetres = ui->spinBox_nb_fenetres->value();
-
-    // 📌 Vérification des dimensions minimales
-    if (longueur < 50 || largeur < 50) {
-        QMessageBox::warning(this, "Erreur", "Les dimensions doivent être supérieures à 50 !");
-        return;
-    }
-
-    // 📌 Création de la scène
-    if (!ui->graphicsView_2D->scene()) {
-        ui->graphicsView_2D->setScene(new QGraphicsScene(this));
-    }
-    ui->graphicsView_2D->scene()->clear();
-
-    QGraphicsScene *scene = new QGraphicsScene(this);
-    ui->graphicsView_2D->setScene(scene);
-
-    // === 🏠 DESSIN DU PLAN PRINCIPAL (Cadre du plan) ===
-    QRectF planRect(0, 0, longueur, largeur);
-    QPen cadrePen(Qt::black, 3);
-    scene->addRect(planRect, cadrePen);
-
-    // === 🚧 AJOUT DES MURS (DÉPLAÇABLES) ===
-    for (int i = 0; i < nb_murs; ++i) {
-        int x = QRandomGenerator::global()->bounded(10, longueur - 50);
-        int y = QRandomGenerator::global()->bounded(10, largeur - 50);
-        int width = QRandomGenerator::global()->bounded(50, 150);
-        int height = 8; // Épaisseur du mur
-
-        PlanItem *mur = new PlanItem(x, y, width, height, Qt::darkGray);
-        scene->addItem(mur);
-    }
-
-    // === 🚪 AJOUT DES PORTES (DÉPLAÇABLES) ===
-    for (int i = 0; i < nb_portes; ++i) {
-        int x = QRandomGenerator::global()->bounded(10, longueur - 50);
-        int y = QRandomGenerator::global()->bounded(10, largeur - 50);
-
-        PlanItem *porte = new PlanItem(x, y, 30, 5, QColor(139, 69, 19)); // Marron (brown)
-        scene->addItem(porte);
-    }
-
-    // === 🪟 AJOUT DES FENÊTRES (DÉPLAÇABLES) ===
-    for (int i = 0; i < nb_fenetres; ++i) {
-        int x = QRandomGenerator::global()->bounded(10, longueur - 50);
-        int y = QRandomGenerator::global()->bounded(10, largeur - 50);
-
-        PlanItem *fenetre = new PlanItem(x, y, 40, 5, Qt::cyan);
-        scene->addItem(fenetre);
-    }
-
-    // 📌 Ajuster la vue
-    ui->graphicsView_2D->fitInView(planRect, Qt::KeepAspectRatio);
-}
-
-void MainWindowCrud::on_pushButton_generer_2D_clicked(){
-    genererPlan2D();
-}*/
 
 
 void MainWindowCrud::on_generateButton_clicked()

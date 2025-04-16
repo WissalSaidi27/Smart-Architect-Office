@@ -208,7 +208,7 @@ void FloorPlanGenerator::drawRoom(const Room &room)
     }
 }
 
-
+//maison
 void FloorPlanGenerator::generateHousePlan(int width, int height, int roomCount, QVector<Room> &rooms)
 {
     // Salon
@@ -288,7 +288,7 @@ void FloorPlanGenerator::generateHousePlan(int width, int height, int roomCount,
 
 
 }
-
+//office
 void FloorPlanGenerator::generateOfficePlan(int width, int height, int roomCount, QVector<Room> &rooms)
 {
     // Réception
@@ -340,7 +340,7 @@ void FloorPlanGenerator::generateOfficePlan(int width, int height, int roomCount
 
 
 }
-
+//appartement
 void FloorPlanGenerator::generateApartmentPlan(int width, int height, int roomCount, QVector<Room> &rooms)
 {
     // Entrée et espace de vie principal
@@ -418,10 +418,10 @@ void FloorPlanGenerator::generateApartmentPlan(int width, int height, int roomCo
         rooms.append(bedroom2);
     }
 
-    // Ajouter des meubles d'appartement
+
 
 }
-
+//Restaurant
 void FloorPlanGenerator::generateRestaurantPlan(int width, int height, int roomCount, QVector<Room> &rooms)
 {
     // Salle principale
@@ -488,7 +488,7 @@ void FloorPlanGenerator::generateRestaurantPlan(int width, int height, int roomC
 
 
 }
-
+//magasin
 void FloorPlanGenerator::generateStorePlan(int width, int height, int roomCount, QVector<Room> &rooms)
 {
     // Espace principal
@@ -540,6 +540,5 @@ void FloorPlanGenerator::generateStorePlan(int width, int height, int roomCount,
         rooms.append(checkout);
     }
 
-    // Ajouter étagères et présentoirs
 
 }

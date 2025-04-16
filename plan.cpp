@@ -23,7 +23,18 @@ plan::plan(int id_plan, QString nom_plan,QString type_plan ,QString description 
 //fonction ajouter plan
 bool plan::ajouter()
 {
+
+    if (nom_plan.isEmpty() || type_plan.isEmpty() || description.isEmpty() || photo.isEmpty()) {
+        qDebug() << " Erreur : Un ou plusieurs champs sont vides.";
+        return false;  // Annuler l'ajout si un champ est vide
+    }
+    if (date_creation > QDate::currentDate()) {
+        qDebug() << "Erreur : La date de création ne peut pas être supérieure à la date d'aujourd'hui.";
+        return false;
+    }
     QSqlQuery query;
+
+
 
     query.prepare("INSERT INTO PLAN (NOM_PLAN, TYPE_PLAN, DESCRIPTION, DATE_CREATION, PHOTO) "
                   "VALUES (:nom_plan, :type_plan, :description, TO_DATE(:date_creation, 'DD-MM-YYYY'), :photo)");
@@ -89,6 +100,10 @@ bool plan::modifier(int id_plan)
     if (nom_plan.isEmpty() || type_plan.isEmpty() || description.isEmpty() || photo.isEmpty()) {
         qDebug() << " Erreur : Un ou plusieurs champs sont vides.";
         return false;  // Annuler l'ajout si un champ est vide
+    }
+    if (date_creation > QDate::currentDate()) {
+        qDebug() << "Erreur : La date de création ne peut pas être supérieure à la date d'aujourd'hui.";
+        return false;
     }
     QSqlQuery query;
     query.prepare("UPDATE plan SET nom_plan = :nom_plan, type_plan = :type_plan, description = :description, "

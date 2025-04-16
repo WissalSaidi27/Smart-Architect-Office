@@ -50,9 +50,7 @@ private slots:
     void on_pushButton_10_clicked();
     void afficherStatistiquesPlans();
     void on_pushButton_11_clicked();
-    /*void genererPlan2D();
-    void on_pushButton_generer_2D_clicked();*/
-    //void on_generateButton_clicked();
+
     void on_generateButton_clicked();
 
 
