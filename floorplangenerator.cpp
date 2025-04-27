@@ -1,5 +1,4 @@
 #include "FloorPlanGenerator.h"
-
 #include <QGraphicsRectItem>
 #include <QGraphicsLineItem>
 #include <QGraphicsTextItem>
@@ -27,7 +26,6 @@ FloorPlanGenerator::~FloorPlanGenerator()
 {
     // Cleanup if needed
 }
-
 FloorPlanGenerator::FloorPlanGenerator(QWidget *parent)
     : QDialog(parent)
 {
@@ -88,10 +86,9 @@ void FloorPlanGenerator::generateFloorPlan()
         drawRoom(room);
     }
 
-    // Ajuster la vue pour afficher tout le plan
+
     view->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
 
-    // Activer le bouton de sauvegarde
     saveButton->setEnabled(true);
 }
 
@@ -106,19 +103,7 @@ void FloorPlanGenerator::savePlan()
         return;
     }
 
-    /*if (fileName.endsWith(".pdf")) {
-        // Sauvegarde en PDF
-        QPrinter printer(QPrinter::HighResolution);
-        printer.setOutputFormat(QPrinter::PdfFormat);
-        //printer.setOutputFileName(fileName);
-        printer.setPageSize(QPageSize(QPageSize::A4));
 
-        QPainter painter(&printer);
-        painter.setRenderHint(QPainter::Antialiasing);
-        scene->render(&painter);
-        painter.end();
-    } else {*/
-        // Sauvegarde en image
         QPixmap pixmap(scene->sceneRect().size().toSize());
         pixmap.fill(Qt::white);
 
@@ -128,7 +113,7 @@ void FloorPlanGenerator::savePlan()
         painter.end();
 
         pixmap.save(fileName);
-    //}
+
 
     QMessageBox::information(this, "Sauvegarde", "Plan sauvegardé avec succès!");
 }

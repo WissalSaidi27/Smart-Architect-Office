@@ -53,3 +53,4 @@ QT += charts
 
 RESOURCES += \
     ressource.qrc
+QT += serialport

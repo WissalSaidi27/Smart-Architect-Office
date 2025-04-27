@@ -30,6 +30,12 @@
 #include <QPainter>
 #include <QBrush>
 #include "floorplangenerator.h"
+#include <QStandardPaths>
+#include <QSerialPortInfo>
+#include <QSqlQuery>
+#include <QSerialPort>
+
+QSerialPort *serial;
 
 MainWindowCrud::MainWindowCrud(QWidget *parent) :
     QMainWindow(parent),
@@ -38,10 +44,7 @@ MainWindowCrud::MainWindowCrud(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // Lier le bouton "Générer" à la fonction `genererPlan`
 
-    //connect(ui->pushButton_generer_2D, &QPushButton::clicked, this, &MainWindowCrud::genererPlan2D);
-    // Dans le constructeur de ta classe principale
     connect(ui->generateButton, &QPushButton::clicked, this, &MainWindowCrud::on_generateButton_clicked);
     QPixmap logo(":/Images/Images/logo_app.png");
     ui->labelLogo->setPixmap(logo);
@@ -55,14 +58,39 @@ MainWindowCrud::MainWindowCrud(QWidget *parent) :
     ui->labelLogo_5->setPixmap(logo);
     ui->labelLogo_5->setScaledContents(true);
 
+    serial = new QSerialPort(this);
+
+    // ⚡ Sélectionner le bon port COM
+    serial->setPortName("COM3"); // Attention : METS le bon COM de ton Arduino !
+
+    serial->setBaudRate(QSerialPort::Baud9600);
+    serial->setDataBits(QSerialPort::Data8);
+    serial->setParity(QSerialPort::NoParity);
+    serial->setStopBits(QSerialPort::OneStop);
+    serial->setFlowControl(QSerialPort::NoFlowControl);
+
+    if (serial->open(QIODevice::ReadWrite)) {
+        connect(serial, &QSerialPort::readyRead, this, &MainWindowCrud::readSerialData);
+        qDebug() << "Connexion Arduino réussie!";
+    } else {
+        qDebug() << "Erreur ouverture Arduino:" << serial->errorString();
+    }
+
+
 
 
 
 }
 MainWindowCrud::~MainWindowCrud()
 {
+    if (serial->isOpen()){
+        serial->close();
+    }
+
     delete ui;
 }
+
+
 
 // anuller fonction ajouter
 void MainWindowCrud::viderFormulaireAdd() {
@@ -281,7 +309,8 @@ void MainWindowCrud::exporterPDF_Plan() {
     const int rowCount = ui->tableView->model()->rowCount();
     const int columnCount = ui->tableView->model()->columnCount();
     QString currentDate = QDate::currentDate().toString("dd/MM/yyyy");
-    QString logoPath = "C:/Images/logo_app.png";
+    QString logoPath = "C:/Users/21692/OneDrive/Pictures/logo_app.png";
+
 
     out << "<html>\n"
            "<head>\n"
@@ -297,20 +326,20 @@ void MainWindowCrud::exporterPDF_Plan() {
            "</head>\n"
            "<body>\n";
 
-    // Header with logo and date
-    out << "<div style='display: flex; justify-content: space-between; align-items: center; padding: 0 40px;'>"
-           "<img src='" + logoPath + "' width='100' alt='Logo'>"
+    // Header avec logo
+    out << "<div style='width: 100%; display: flex; justify-content: space-between; align-items: center;'>"
+           "<div style='flex: 1;'>"
+           "<img src='" + logoPath + "' width='150' height='150' alt='Logo'>"
+                            "</div>"
+                            "<div style='text-align: right; font-size: 12px; color: #555;'>"
+                            "<p style='margin: 0;'>Date : " << currentDate << "</p>"
+                          "<p style='margin: 0;'>Document: Liste des Plans</p>"
+                          "</div>"
+                          "</div>"
+                          "<hr style='margin-top: 10px; margin-bottom: 10px;'>";
 
-             // 📌 Place your logo at :/images/logo.png
-           "<div style='text-align: right;'>"
-           "<p style='font-size: 14px; color: #555;'>Date : " << currentDate << "</p>"
-                          "<p style='font-size: 14px; color: #555;'>Document: Liste des Plans</p>"
-                          "</div></div><hr>";
 
-    // Title
     out << "<h1 style='text-align:center;'>Liste des Plans</h1><br>";
-
-    // Table start
     out << "<table>\n";
     out << "<thead><tr><th>#</th>";
 
@@ -321,7 +350,6 @@ void MainWindowCrud::exporterPDF_Plan() {
     }
     out << "</tr></thead>\n";
 
-    // Table rows
     for (int row = 0; row < rowCount; row++) {
         out << "<tr><td>" << row + 1 << "</td>";
         for (int column = 0; column < columnCount; column++) {
@@ -332,17 +360,14 @@ void MainWindowCrud::exporterPDF_Plan() {
         }
         out << "</tr>\n";
     }
-    out << "</table>\n";
 
-    // Footer
+    out << "</table>\n";
     out << "<br><br><div style='text-align: right; padding-right: 60px;'>"
            "<p>Signature responsable</p><br><br>"
            "______________________________"
            "</div>";
-
     out << "</body></html>";
 
-    // PDF export
     QString fileName = QFileDialog::getSaveFileName(nullptr, "Sauvegarder en PDF", QString(), "*.pdf");
     if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".pdf");
 
@@ -350,6 +375,8 @@ void MainWindowCrud::exporterPDF_Plan() {
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setPageSize(QPageSize(QPageSize::A4));
     printer.setOutputFileName(fileName);
+    printer.setPageMargins(QMarginsF(10, 10, 10, 10)); // marges en mm
+
 
     QTextDocument doc;
     doc.setHtml(strStream);
@@ -357,6 +384,7 @@ void MainWindowCrud::exporterPDF_Plan() {
 
     QMessageBox::information(this, "Succès", "PDF exporté avec succès !");
 }
+
 
 
 //button pdf
@@ -391,7 +419,7 @@ void MainWindowCrud::afficherStatistiquesPlans() {
 
     QChart *chart = new QChart();
     chart->addSeries(series);
-    chart->setTitle("📊 Répartition des plans par type");
+    chart->setTitle("Répartition des plans par type");
     chart->setAnimationOptions(QChart::AllAnimations);
 
     QChartView *chartView = new QChartView(chart);
@@ -424,11 +452,46 @@ void MainWindowCrud::on_generateButton_clicked()
     gen->scene = new QGraphicsScene(this);
     ui->View->setScene(gen->scene);
 
-    // Générer le plan (appel d'une méthode de génération, par exemple)
-    gen->generateFloorPlan(); // Assure-toi que generatePlan() fait quelque chose ici
 
-    // Il n'est pas nécessaire de faire appel à show() si on affiche déjà la scène
-    // gen->show();
+    gen->generateFloorPlan();
+
+
 }
+void MainWindowCrud::sendResponseToArduino(const QString &message)
+{
+    serial->write(message.toUtf8() + "\n");
+    qDebug() << "Message envoyé à l'Arduino : " << message;
+}
+
+
+QString MainWindowCrud::getEmployeeNameByUID(const QString &uid)
+{
+    QSqlQuery query;
+    query.prepare("SELECT prenom FROM employe WHERE mot_de_passe = :uid");
+    query.bindValue(":uid", uid);
+    if (query.exec() && query.next()) {
+        return query.value(0).toString();  // Retourne le nom de l'employé
+    } else {
+        return QString();  // UID non trouvé
+    }
+}
+void MainWindowCrud::readSerialData()
+{
+    QByteArray data = serial->readAll();
+    QString uid = QString::fromUtf8(data).trimmed();
+    qDebug() << "UID reçu : " << uid;
+
+    // Rechercher le nom de l'employé dans la base de données
+    QString employeeName = getEmployeeNameByUID(uid);
+    if (!employeeName.isEmpty()) {
+    sendResponseToArduino("WELCOME:" + employeeName);
+    } else {
+        sendResponseToArduino("DENIED");
+    }
+}
+
+
+
+
 
 

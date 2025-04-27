@@ -11,7 +11,7 @@ class QComboBox;
 class QSpinBox;
 class QPushButton;
 
-// Structures de données
+
 struct Room {
     QString name;
     double x;
@@ -63,7 +63,7 @@ private:
     void generateStorePlan(int width, int height, int roomCount, QVector<Room> &rooms);
 
 
-    // Furniture methods
+
 
 
     void setupUI();

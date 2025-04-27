@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1011</width>
+    <height>673</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>791</width>
-      <height>551</height>
+      <width>891</width>
+      <height>601</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -1134,8 +1134,8 @@ QComboBox:focus {
      <widget class="QLabel" name="label_7">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>0</y>
+        <x>-100</x>
+        <y>80</y>
         <width>791</width>
         <height>521</height>
        </rect>
@@ -1191,7 +1191,7 @@ color: #e6f2fa;
      <widget class="QLineEdit" name="lineEdit_13">
       <property name="geometry">
        <rect>
-        <x>190</x>
+        <x>230</x>
         <y>140</y>
         <width>113</width>
         <height>28</height>
@@ -1216,7 +1216,7 @@ color: white; /* Change la couleur du texte si nécessaire */
      <widget class="QPlainTextEdit" name="plainTextEdit_3">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>300</x>
         <y>140</y>
         <width>171</width>
         <height>31</height>
@@ -1229,8 +1229,8 @@ color: white; /* Change la couleur du texte si nécessaire */
      <widget class="QPushButton" name="pushButton_9">
       <property name="geometry">
        <rect>
-        <x>260</x>
-        <y>210</y>
+        <x>320</x>
+        <y>200</y>
         <width>121</width>
         <height>31</height>
        </rect>
@@ -1520,7 +1520,7 @@ color: white; /* Change la couleur du texte si nécessaire */
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1011</width>
      <height>25</height>
     </rect>
    </property>

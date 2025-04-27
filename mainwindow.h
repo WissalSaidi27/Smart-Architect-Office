@@ -13,6 +13,10 @@
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 #include <QMouseEvent>
+#include <QSerialPort>
+#include <QSerialPortInfo>
+#include <QSqlDatabase>
+
 
 
 
@@ -52,6 +56,9 @@ private slots:
     void on_pushButton_11_clicked();
 
     void on_generateButton_clicked();
+    void readSerialData();
+    void sendResponseToArduino(const QString &message);
+
 
 
 
@@ -61,6 +68,9 @@ private:
     Ui::MainWindowCrud *ui;
     //plan p;
     plan p;
+    QSerialPort *serial;
+    QSqlDatabase db;
+    QString getEmployeeNameByUID(const QString &uid);
 
 
 
