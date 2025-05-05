@@ -3,8 +3,6 @@
 
 #include <QMainWindow>
 #include "plan.h"
-
-
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
 #include <QSequentialAnimationGroup>
@@ -64,13 +62,16 @@ private slots:
 
 
 
+
 private:
     Ui::MainWindowCrud *ui;
     //plan p;
     plan p;
+
     QSerialPort *serial;
     QSqlDatabase db;
     QString getEmployeeNameByUID(const QString &uid);
+    int getEmployeestatusByUID(const QString &uid);
 
 
 

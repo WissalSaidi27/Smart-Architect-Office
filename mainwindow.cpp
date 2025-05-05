@@ -58,10 +58,12 @@ MainWindowCrud::MainWindowCrud(QWidget *parent) :
     ui->labelLogo_5->setPixmap(logo);
     ui->labelLogo_5->setScaledContents(true);
 
+
+    //arduino
     serial = new QSerialPort(this);
 
-    // ⚡ Sélectionner le bon port COM
-    serial->setPortName("COM3"); // Attention : METS le bon COM de ton Arduino !
+
+    serial->setPortName("COM3");
 
     serial->setBaudRate(QSerialPort::Baud9600);
     serial->setDataBits(QSerialPort::Data8);
@@ -75,10 +77,6 @@ MainWindowCrud::MainWindowCrud(QWidget *parent) :
     } else {
         qDebug() << "Erreur ouverture Arduino:" << serial->errorString();
     }
-
-
-
-
 
 }
 MainWindowCrud::~MainWindowCrud()
@@ -481,15 +479,34 @@ void MainWindowCrud::readSerialData()
     QString uid = QString::fromUtf8(data).trimmed();
     qDebug() << "UID reçu : " << uid;
 
-    // Rechercher le nom de l'employé dans la base de données
+    int status = getEmployeestatusByUID(uid);
     QString employeeName = getEmployeeNameByUID(uid);
-    if (!employeeName.isEmpty()) {
-    sendResponseToArduino("WELCOME:" + employeeName);
+
+       if ((status == 1)&&(!employeeName.isEmpty()))
+        {
+            sendResponseToArduino("WELCOME:");
+        }
+        else if((status == 0)&&(!employeeName.isEmpty()))
+        {
+            sendResponseToArduino("WELCOME1");
+        }
+        else
+        {
+         sendResponseToArduino("DENIED");
+        }
+}
+int MainWindowCrud::getEmployeestatusByUID(const QString &uid)
+{
+    QSqlQuery query;
+    query.prepare("SELECT status FROM employe WHERE mot_de_passe = :uid");
+    query.bindValue(":uid", uid);
+
+    if (query.exec() && query.next()) {
+        return query.value(0).toInt();  // Returns the numeric status
     } else {
-        sendResponseToArduino("DENIED");
+        return -1;  // UID not found or query failed
     }
 }
-
 
 
 
